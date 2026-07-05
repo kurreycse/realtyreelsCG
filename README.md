@@ -20,6 +20,14 @@
   3. Use the build command: `npm run build`.
   4. Use the publish directory: `dist`.
 
+  ### GitHub Pages
+
+  1. Add repository secrets:
+     - `VITE_SUPABASE_URL`
+     - `VITE_SUPABASE_PUBLISHABLE_KEY`
+  2. On GitHub, go to Settings > Pages and configure the site to publish from the `gh-pages` branch.
+  3. Push to `main`; the workflow will build and deploy the site automatically.
+
   ### Netlify
 
   1. Connect this repository to Netlify.
