@@ -1,0 +1,2 @@
+-- Intentionally empty for now.
+-- Add demo InstaHouse records here after the frontend is wired to Supabase.
