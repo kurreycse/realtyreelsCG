@@ -1011,19 +1011,15 @@ function ListingCard({
         className={`relative h-44 bg-muted md:h-48 lg:h-52 ${property.videoUrl ? "cursor-pointer" : ""}`}
       >
         {property.videoUrl ? (
-          playingInlineVideo ? (
-            <video
-              src={property.videoUrl}
-              controls
-              autoPlay
-              muted={false}
-              playsInline
-              preload="metadata"
-              className="h-full w-full bg-black object-contain"
-            />
-          ) : (
-            <img src={property.image} alt={property.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          )
+          <video
+            src={property.videoUrl}
+            controls
+            muted={!playingInlineVideo}
+            autoPlay={playingInlineVideo}
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-contain"
+          />
         ) : (
           <img src={property.image} alt={property.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
         )}
@@ -1816,19 +1812,15 @@ function PropertyDetail({ property, onBack, onLike }: { property: Property; onBa
         className={`relative h-72 bg-muted md:sticky md:top-8 md:h-[calc(100vh-4rem)] md:min-h-[620px] md:overflow-hidden md:rounded-lg ${property.videoUrl ? "cursor-pointer" : ""}`}
       >
         {property.videoUrl ? (
-          playingVideo ? (
-            <video
-              src={property.videoUrl}
-              controls
-              autoPlay
-              muted={!playingVideo}
-              playsInline
-              preload="metadata"
-              className="h-full w-full object-contain"
-            />
-          ) : (
-            <img src={property.image} alt={property.title} className="h-full w-full object-cover" />
-          )
+          <video
+            src={property.videoUrl}
+            controls
+            muted={!playingVideo}
+            autoPlay={playingVideo}
+            playsInline
+            preload="metadata"
+            className="h-full w-full object-contain"
+          />
         ) : (
           <img src={property.image} alt={property.title} className="h-full w-full object-cover" />
         )}
