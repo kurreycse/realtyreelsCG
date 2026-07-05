@@ -91,6 +91,35 @@ interface Property {
   noBrokerage: boolean;
   featured: boolean;
   rera?: string;
+  securityDeposit?: number;
+  maintenanceCharges?: number;
+  maintenanceIncluded?: boolean;
+  availableFrom?: string;
+  leasePeriodMonths?: number;
+  preferredTenants?: string;
+  priceNegotiable?: boolean;
+  bookingAmount?: number;
+  loanAvailable?: boolean;
+  propertyAge?: number;
+  ownershipType?: string;
+  pgMonthlyRentPerBed?: number;
+  pgSharingType?: string;
+  pgFoodIncluded?: boolean;
+  genderPreference?: string;
+  commercialPricingType?: "RENT" | "SALE";
+  commercialUsage?: string;
+  commercialCarpetArea?: number;
+  commercialBuiltUpArea?: number;
+  plotArea?: number;
+  plotAreaUnit?: string;
+  boundaryWall?: boolean;
+  cornerPlot?: boolean;
+  approvedBy?: string;
+  projectPriceMin?: number;
+  projectPriceMax?: number;
+  projectPossessionDate?: string;
+  projectTowerCount?: number;
+  projectConfigurations?: string;
   videoRef: string;
   videoUrl?: string;
   videoFileName?: string;
@@ -153,6 +182,35 @@ type DbPropertyRow = {
   parking: boolean | null;
   possession: Property["possession"];
   rera: string | null;
+  security_deposit: number | string | null;
+  maintenance_charges: number | string | null;
+  maintenance_included: boolean | null;
+  available_from: string | null;
+  lease_period_months: number | null;
+  preferred_tenants: string | null;
+  price_negotiable: boolean | null;
+  booking_amount: number | string | null;
+  loan_available: boolean | null;
+  property_age: number | null;
+  ownership_type: string | null;
+  pg_monthly_rent_per_bed: number | string | null;
+  pg_sharing_type: string | null;
+  pg_food_included: boolean | null;
+  gender_preference: string | null;
+  commercial_pricing_type: "RENT" | "SALE" | null;
+  commercial_usage: string | null;
+  commercial_carpet_area: number | string | null;
+  commercial_built_up_area: number | string | null;
+  plot_area: number | string | null;
+  plot_area_unit: string | null;
+  boundary_wall: boolean | null;
+  corner_plot: boolean | null;
+  approved_by: string | null;
+  project_price_min: number | string | null;
+  project_price_max: number | string | null;
+  project_possession_date: string | null;
+  project_tower_count: number | null;
+  project_configurations: string | null;
   description: string | null;
   image_url: string | null;
   seller_type: OwnerType;
@@ -200,6 +258,35 @@ const PROPERTY_SELECT = `
   parking,
   possession,
   rera,
+  security_deposit,
+  maintenance_charges,
+  maintenance_included,
+  available_from,
+  lease_period_months,
+  preferred_tenants,
+  price_negotiable,
+  booking_amount,
+  loan_available,
+  property_age,
+  ownership_type,
+  pg_monthly_rent_per_bed,
+  pg_sharing_type,
+  pg_food_included,
+  gender_preference,
+  commercial_pricing_type,
+  commercial_usage,
+  commercial_carpet_area,
+  commercial_built_up_area,
+  plot_area,
+  plot_area_unit,
+  boundary_wall,
+  corner_plot,
+  approved_by,
+  project_price_min,
+  project_price_max,
+  project_possession_date,
+  project_tower_count,
+  project_configurations,
   description,
   image_url,
   seller_type,
@@ -272,6 +359,35 @@ function mapDbProperty(row: DbPropertyRow, savedIds = new Set<string>()): Proper
     noBrokerage: Boolean(row.no_brokerage),
     featured: Boolean(row.featured),
     rera: row.rera || undefined,
+    securityDeposit: row.security_deposit ? Number(row.security_deposit) : undefined,
+    maintenanceCharges: row.maintenance_charges ? Number(row.maintenance_charges) : undefined,
+    maintenanceIncluded: Boolean(row.maintenance_included),
+    availableFrom: row.available_from || undefined,
+    leasePeriodMonths: row.lease_period_months || undefined,
+    preferredTenants: row.preferred_tenants || undefined,
+    priceNegotiable: Boolean(row.price_negotiable),
+    bookingAmount: row.booking_amount ? Number(row.booking_amount) : undefined,
+    loanAvailable: Boolean(row.loan_available),
+    propertyAge: row.property_age || undefined,
+    ownershipType: row.ownership_type || undefined,
+    pgMonthlyRentPerBed: row.pg_monthly_rent_per_bed ? Number(row.pg_monthly_rent_per_bed) : undefined,
+    pgSharingType: row.pg_sharing_type || undefined,
+    pgFoodIncluded: Boolean(row.pg_food_included),
+    genderPreference: row.gender_preference || undefined,
+    commercialPricingType: row.commercial_pricing_type || undefined,
+    commercialUsage: row.commercial_usage || undefined,
+    commercialCarpetArea: row.commercial_carpet_area ? Number(row.commercial_carpet_area) : undefined,
+    commercialBuiltUpArea: row.commercial_built_up_area ? Number(row.commercial_built_up_area) : undefined,
+    plotArea: row.plot_area ? Number(row.plot_area) : undefined,
+    plotAreaUnit: row.plot_area_unit || undefined,
+    boundaryWall: Boolean(row.boundary_wall),
+    cornerPlot: Boolean(row.corner_plot),
+    approvedBy: row.approved_by || undefined,
+    projectPriceMin: row.project_price_min ? Number(row.project_price_min) : undefined,
+    projectPriceMax: row.project_price_max ? Number(row.project_price_max) : undefined,
+    projectPossessionDate: row.project_possession_date || undefined,
+    projectTowerCount: row.project_tower_count || undefined,
+    projectConfigurations: row.project_configurations || undefined,
     videoRef: video?.storage_path || "",
     videoFileName: video?.stored_filename || video?.original_filename || undefined,
     submittedAt: row.submitted_at || undefined,
@@ -1880,6 +1996,35 @@ function PostPropertyScreen({ user, onBack, onSubmit }: { user: User; onBack: ()
     furnishing: "Unfurnished",
     possession: "Immediate",
     rera: "",
+    securityDeposit: "",
+    maintenanceCharges: "",
+    maintenanceIncluded: "No",
+    availableFrom: "",
+    leasePeriodMonths: "",
+    preferredTenants: "Family",
+    priceNegotiable: "No",
+    bookingAmount: "",
+    loanAvailable: "No",
+    propertyAge: "",
+    ownershipType: "Freehold",
+    pgMonthlyRentPerBed: "",
+    pgSharingType: "Single",
+    pgFoodIncluded: "No",
+    genderPreference: "Co-ed",
+    commercialPricingType: "RENT",
+    commercialUsage: "Office",
+    commercialCarpetArea: "",
+    commercialBuiltUpArea: "",
+    plotArea: "",
+    plotAreaUnit: "Sq Ft",
+    boundaryWall: "No",
+    cornerPlot: "No",
+    approvedBy: "",
+    projectPriceMin: "",
+    projectPriceMax: "",
+    projectPossessionDate: "",
+    projectTowerCount: "",
+    projectConfigurations: "",
     photos: false,
     video: false,
     videoFileName: "",
@@ -1925,11 +2070,17 @@ function PostPropertyScreen({ user, onBack, onSubmit }: { user: User; onBack: ()
     const propertyId = `owner-${Date.now()}`;
     const price = Number(form.price) || (form.purpose === "RENT" || form.purpose === "PG" ? 25000 : 7500000);
     const bedrooms = Number.parseInt(form.bhk, 10) || 0;
+    const listingType = form.purpose === "RENT" || form.purpose === "PG"
+      ? "RENT"
+      : form.purpose === "COMMERCIAL"
+      ? (form.commercialPricingType as "RENT" | "SALE")
+      : "SALE";
+
     const submittedProperty: Property = {
       id: propertyId,
       title: form.title || `${form.bhk} ${form.type} in ${form.locality || form.city}`,
       purpose: form.purpose as Purpose,
-      listingType: form.purpose === "RENT" || form.purpose === "PG" ? "RENT" : "SALE",
+      listingType,
       type: form.type,
       price,
       city: form.city,
@@ -1937,7 +2088,7 @@ function PostPropertyScreen({ user, onBack, onSubmit }: { user: User; onBack: ()
       bhk: form.bhk,
       area: Number(form.area) || 1000,
       areaUnit: "Sq Ft",
-      furnishing: form.furnishing,
+      furnishing: form.purpose === "BUY" ? "N/A" : form.furnishing,
       bedrooms,
       bathrooms: bedrooms > 0 ? Math.min(bedrooms, 3) : 0,
       parking: true,
@@ -1954,6 +2105,35 @@ function PostPropertyScreen({ user, onBack, onSubmit }: { user: User; onBack: ()
       noBrokerage: form.sellerType === "Owner",
       featured: false,
       rera: form.rera || undefined,
+      securityDeposit: Number(form.securityDeposit) || undefined,
+      maintenanceCharges: Number(form.maintenanceCharges) || undefined,
+      maintenanceIncluded: form.maintenanceIncluded === "Yes",
+      availableFrom: form.availableFrom || undefined,
+      leasePeriodMonths: Number(form.leasePeriodMonths) || undefined,
+      preferredTenants: form.preferredTenants || undefined,
+      priceNegotiable: form.priceNegotiable === "Yes",
+      bookingAmount: Number(form.bookingAmount) || undefined,
+      loanAvailable: form.loanAvailable === "Yes",
+      propertyAge: Number(form.propertyAge) || undefined,
+      ownershipType: form.ownershipType || undefined,
+      pgMonthlyRentPerBed: Number(form.pgMonthlyRentPerBed) || undefined,
+      pgSharingType: form.pgSharingType || undefined,
+      pgFoodIncluded: form.pgFoodIncluded === "Yes",
+      genderPreference: form.genderPreference || undefined,
+      commercialPricingType: form.commercialPricingType as "RENT" | "SALE" | undefined,
+      commercialUsage: form.commercialUsage || undefined,
+      commercialCarpetArea: Number(form.commercialCarpetArea) || undefined,
+      commercialBuiltUpArea: Number(form.commercialBuiltUpArea) || undefined,
+      plotArea: Number(form.plotArea) || undefined,
+      plotAreaUnit: form.plotAreaUnit || undefined,
+      boundaryWall: form.boundaryWall === "Yes",
+      cornerPlot: form.cornerPlot === "Yes",
+      approvedBy: form.approvedBy || undefined,
+      projectPriceMin: Number(form.projectPriceMin) || undefined,
+      projectPriceMax: Number(form.projectPriceMax) || undefined,
+      projectPossessionDate: form.projectPossessionDate || undefined,
+      projectTowerCount: Number(form.projectTowerCount) || undefined,
+      projectConfigurations: form.projectConfigurations || undefined,
       videoRef: `pending/${propertyId}/${form.videoFileName}`,
       videoFileName: form.videoFileName,
       submittedAt: new Date().toISOString(),
@@ -2034,11 +2214,102 @@ function PostPropertyScreen({ user, onBack, onSubmit }: { user: User; onBack: ()
 
         {step === 3 && (
           <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 md:grid-cols-2">
-            <SectionTitle icon={<IndianRupee size={18} />} title="Price and readiness" subtitle="Show possession, furnishing, and RERA to build trust." />
-            <FieldInput label={form.purpose === "RENT" || form.purpose === "PG" ? "Monthly rent" : "Expected price"} placeholder="22000" value={form.price} onChange={(v) => update("price", v)} />
-            <FieldSelect label="Furnishing" value={form.furnishing} onChange={(v) => update("furnishing", v)} options={["Unfurnished", "Semi Furnished", "Fully Furnished", "N/A"]} />
-            <FieldSelect label="Possession" value={form.possession} onChange={(v) => update("possession", v)} options={["Immediate", "Ready to Move", "Under Construction", "Within 3 Months"]} />
-            <FieldInput label="RERA ID (if applicable)" placeholder="RERA-IN-..." value={form.rera} onChange={(v) => update("rera", v)} />
+            <SectionTitle icon={<IndianRupee size={18} />} title="Category-specific details" subtitle="Ask the right questions for each property type." />
+
+            {form.purpose === "RENT" && (
+              <>
+                <FieldInput label="Monthly rent" placeholder="22000" value={form.price} onChange={(v) => update("price", v)} />
+                <FieldInput label="Security deposit" placeholder="50000" value={form.securityDeposit} onChange={(v) => update("securityDeposit", v)} />
+                <FieldSelect label="Maintenance included" value={form.maintenanceIncluded} onChange={(v) => update("maintenanceIncluded", v)} options={["No", "Yes"]} />
+                <FieldInput label="Maintenance charges" placeholder="2000" value={form.maintenanceCharges} onChange={(v) => update("maintenanceCharges", v)} />
+                <FieldInput label="Available from" placeholder="Select date" type="date" value={form.availableFrom} onChange={(v) => update("availableFrom", v)} />
+                <FieldInput label="Lease / lock-in period (months)" placeholder="12" value={form.leasePeriodMonths} onChange={(v) => update("leasePeriodMonths", v)} />
+                <FieldSelect label="Preferred tenants" value={form.preferredTenants} onChange={(v) => update("preferredTenants", v)} options={["Family", "Bachelors", "Company lease"]} />
+                <FieldSelect label="Furnishing" value={form.furnishing} onChange={(v) => update("furnishing", v)} options={["Unfurnished", "Semi Furnished", "Fully Furnished", "N/A"]} />
+              </>
+            )}
+
+            {form.purpose === "BUY" && (
+              <>
+                <FieldInput label="Expected price" placeholder="7500000" value={form.price} onChange={(v) => update("price", v)} />
+                <FieldSelect label="Price negotiable" value={form.priceNegotiable} onChange={(v) => update("priceNegotiable", v)} options={["No", "Yes"]} />
+                <FieldInput label="Booking amount / token" placeholder="200000" value={form.bookingAmount} onChange={(v) => update("bookingAmount", v)} />
+                <FieldSelect label="Loan available" value={form.loanAvailable} onChange={(v) => update("loanAvailable", v)} options={["No", "Yes"]} />
+                <FieldInput label="Age of property (years)" placeholder="5" value={form.propertyAge} onChange={(v) => update("propertyAge", v)} />
+                <FieldSelect label="Ownership type" value={form.ownershipType} onChange={(v) => update("ownershipType", v)} options={["Freehold", "Leasehold", "Cooperative Society"]} />
+                <FieldInput label="RERA ID" placeholder="RERA-IN-..." value={form.rera} onChange={(v) => update("rera", v)} />
+              </>
+            )}
+
+            {form.purpose === "PG" && (
+              <>
+                <FieldInput label="Monthly rent per bed" placeholder="9000" value={form.pgMonthlyRentPerBed} onChange={(v) => update("pgMonthlyRentPerBed", v)} />
+                <FieldSelect label="Sharing type" value={form.pgSharingType} onChange={(v) => update("pgSharingType", v)} options={["Single", "Double", "Triple"]} />
+                <FieldSelect label="Food included" value={form.pgFoodIncluded} onChange={(v) => update("pgFoodIncluded", v)} options={["No", "Yes"]} />
+                <FieldSelect label="Gender preference" value={form.genderPreference} onChange={(v) => update("genderPreference", v)} options={["Male", "Female", "Co-ed"]} />
+                <FieldInput label="Available from" placeholder="Select date" type="date" value={form.availableFrom} onChange={(v) => update("availableFrom", v)} />
+                <FieldSelect label="Furnishing" value={form.furnishing} onChange={(v) => update("furnishing", v)} options={["Unfurnished", "Semi Furnished", "Fully Furnished", "N/A"]} />
+              </>
+            )}
+
+            {form.purpose === "COMMERCIAL" && (
+              <>
+                <FieldSelect label="Pricing type" value={form.commercialPricingType} onChange={(v) => update("commercialPricingType", v)} options={["RENT", "SALE"]} />
+                <FieldInput label={form.commercialPricingType === "RENT" ? "Monthly rent" : "Expected price"} placeholder="22000" value={form.price} onChange={(v) => update("price", v)} />
+                <FieldSelect label="Property usage" value={form.commercialUsage} onChange={(v) => update("commercialUsage", v)} options={["Office", "Retail", "Warehouse", "Restaurant-fit"]} />
+                <FieldInput label="Carpet area" placeholder="1500" value={form.commercialCarpetArea} onChange={(v) => update("commercialCarpetArea", v)} />
+                <FieldInput label="Built-up area" placeholder="1800" value={form.commercialBuiltUpArea} onChange={(v) => update("commercialBuiltUpArea", v)} />
+                <FieldSelect label="Furnishing" value={form.furnishing} onChange={(v) => update("furnishing", v)} options={["Unfurnished", "Semi Furnished", "Fully Furnished", "N/A"]} />
+              </>
+            )}
+
+            {form.purpose === "PLOT" && (
+              <>
+                <FieldInput label="Expected price" placeholder="2500000" value={form.price} onChange={(v) => update("price", v)} />
+                <FieldInput label="Plot area" placeholder="1200" value={form.plotArea} onChange={(v) => update("plotArea", v)} />
+                <FieldSelect label="Plot unit" value={form.plotAreaUnit} onChange={(v) => update("plotAreaUnit", v)} options={["Sq Ft", "Sq Yard", "Acres"]} />
+                <FieldSelect label="Boundary wall" value={form.boundaryWall} onChange={(v) => update("boundaryWall", v)} options={["No", "Yes"]} />
+                <FieldSelect label="Corner plot" value={form.cornerPlot} onChange={(v) => update("cornerPlot", v)} options={["No", "Yes"]} />
+                <FieldInput label="Approved by" placeholder="BDA / BBMP / Panchayat" value={form.approvedBy} onChange={(v) => update("approvedBy", v)} />
+              </>
+            )}
+
+            {form.purpose === "PROJECT" && (
+              <>
+                <FieldInput label="Price range start" placeholder="4500000" value={form.projectPriceMin} onChange={(v) => update("projectPriceMin", v)} />
+                <FieldInput label="Price range max" placeholder="8500000" value={form.projectPriceMax} onChange={(v) => update("projectPriceMax", v)} />
+                <FieldInput label="Possession date" placeholder="Select date" type="date" value={form.projectPossessionDate} onChange={(v) => update("projectPossessionDate", v)} />
+                <FieldInput label="Number of towers / units" placeholder="2" value={form.projectTowerCount} onChange={(v) => update("projectTowerCount", v)} />
+                <div className="md:col-span-2">
+                  <label className="label-sm">Configurations offered</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {['1 BHK', '2 BHK', '3 BHK', '4 BHK'].map((config) => {
+                      const selected = form.projectConfigurations.split(',').map((item: string) => item.trim()).filter(Boolean).includes(config);
+                      return (
+                        <button
+                          key={config}
+                          type="button"
+                          onClick={() => {
+                            const values = form.projectConfigurations
+                              .split(',')
+                              .map((item: string) => item.trim())
+                              .filter(Boolean);
+                            const next = values.includes(config)
+                              ? values.filter((item) => item !== config)
+                              : [...values, config];
+                            update("projectConfigurations", next.join(", "));
+                          }}
+                          className={`rounded-lg border px-3 py-2 text-left text-sm ${selected ? 'border-primary bg-primary/10 text-primary' : 'border-border bg-card text-muted-foreground'}`}
+                        >
+                          {config}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                <FieldInput label="RERA ID" placeholder="RERA-IN-..." value={form.rera} onChange={(v) => update("rera", v)} />
+              </>
+            )}
           </div>
         )}
 
@@ -2437,11 +2708,11 @@ function SectionTitle({ icon, title, subtitle }: { icon: ReactNode; title: strin
   );
 }
 
-function FieldInput({ label, placeholder, value, onChange }: { label: string; placeholder: string; value: string; onChange: (v: string) => void }) {
+function FieldInput({ label, placeholder, value, type = "text", onChange }: { label: string; placeholder: string; value: string; type?: string; onChange: (v: string) => void }) {
   return (
     <div>
       <label className="label-sm">{label}</label>
-      <input type="text" placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} className="input-field" />
+      <input type={type} placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} className="input-field" />
     </div>
   );
 }
@@ -2717,6 +2988,35 @@ export default function App() {
       parking: property.parking,
       possession: property.possession,
       rera: property.rera || null,
+      security_deposit: property.securityDeposit || null,
+      maintenance_charges: property.maintenanceCharges || null,
+      maintenance_included: property.maintenanceIncluded || null,
+      available_from: property.availableFrom || null,
+      lease_period_months: property.leasePeriodMonths || null,
+      preferred_tenants: property.preferredTenants || null,
+      price_negotiable: property.priceNegotiable || null,
+      booking_amount: property.bookingAmount || null,
+      loan_available: property.loanAvailable || null,
+      property_age: property.propertyAge || null,
+      ownership_type: property.ownershipType || null,
+      pg_monthly_rent_per_bed: property.pgMonthlyRentPerBed || null,
+      pg_sharing_type: property.pgSharingType || null,
+      pg_food_included: property.pgFoodIncluded || null,
+      gender_preference: property.genderPreference || null,
+      commercial_pricing_type: property.commercialPricingType || null,
+      commercial_usage: property.commercialUsage || null,
+      commercial_carpet_area: property.commercialCarpetArea || null,
+      commercial_built_up_area: property.commercialBuiltUpArea || null,
+      plot_area: property.plotArea || null,
+      plot_area_unit: property.plotAreaUnit || null,
+      boundary_wall: property.boundaryWall || null,
+      corner_plot: property.cornerPlot || null,
+      approved_by: property.approvedBy || null,
+      project_price_min: property.projectPriceMin || null,
+      project_price_max: property.projectPriceMax || null,
+      project_possession_date: property.projectPossessionDate || null,
+      project_tower_count: property.projectTowerCount || null,
+      project_configurations: property.projectConfigurations || null,
       description: property.description,
       image_url: property.image,
       seller_type: property.ownerType,
