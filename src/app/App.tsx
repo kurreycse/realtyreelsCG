@@ -1002,52 +1002,38 @@ function ListingCard({
     <article className="group overflow-hidden rounded-lg border border-border bg-card text-left shadow-[0_8px_30px_rgba(15,35,34,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-[0_18px_44px_rgba(15,35,34,0.10)]">
       <div
         onClick={() => {
-          {property.videoUrl ? (
-            <video
-              src={property.videoUrl}
-              playsInline
-              autoPlay
-              muted
-              loop
-              preload="metadata"
-              className="h-full w-full object-contain"
-              onClick={(e) => {
-                // toggle playback and show controls on user tap
-                const v = e.currentTarget as HTMLVideoElement;
-                if (v.paused) {
-                  v.play().catch(() => {});
-                  v.controls = true;
-                } else {
-                  v.pause();
-                }
-              }}
-            />
-          ) : (
-            <img src={property.image} alt={property.title} className="h-full w-full object-cover" />
-          )}
-                <video
-                  src={property.videoUrl}
-                  playsInline
-                  autoPlay
-                  muted
-                  loop
-                  preload="metadata"
-                  className="h-full w-full object-cover"
-                  onClick={(e) => {
-                    // allow toggling controls/playback on user tap
-                    const v = e.currentTarget as HTMLVideoElement;
-                    if (v.paused) {
-                      v.play().catch(() => {});
-                      v.controls = true;
-                    } else {
-                      v.pause();
-                    }
-                  }}
-                />
-              ) : (
-                <img src={property.image} alt={property.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              )}
-          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
+          if (property.videoUrl) {
+            setPlayingInlineVideo(true);
+            return;
+          }
+          onDetail();
+        }}
+        className={`relative h-44 bg-muted md:h-48 lg:h-52 ${property.videoUrl ? "cursor-pointer" : ""}`}
+      >
+        {property.videoUrl ? (
+          <video
+            src={property.videoUrl}
+            playsInline
+            autoPlay
+            muted
+            loop
+            preload="metadata"
+            className="h-full w-full object-cover"
+            onClick={(e) => {
+              // allow toggling controls/playback on user tap
+              const v = e.currentTarget as HTMLVideoElement;
+              if (v.paused) {
+                v.play().catch(() => {});
+                v.controls = true;
+              } else {
+                v.pause();
+              }
+            }}
+          />
+        ) : (
+          <img src={property.image} alt={property.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        )}
+        <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
             <span className="rounded-lg bg-white/95 px-2.5 py-1 text-sm font-bold text-foreground shadow-sm">
               {formatPrice(property.price, property.listingType)}
             </span>
